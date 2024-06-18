@@ -29,7 +29,6 @@ log_alert() {
     echo "$(date): $1" >> $LOG_FILE
 }
 
-# Function to check CPU usage
 check_cpu() {
     CPU_USAGE=$(get_cpu_usage)
     if [ "$CPU_USAGE" -gt "$CPU_THRESHOLD" ]; then
@@ -53,14 +52,12 @@ check_disk() {
     fi
 }
 
-# Function to check running processes 
 check_process() {
     if ! pgrep -x "process_name" > /dev/null; then
         log_alert "Process 'process_name' is not running"
     fi
 }
 
-# Main function to perform all checks
 main() {
     check_cpu
     check_memory
