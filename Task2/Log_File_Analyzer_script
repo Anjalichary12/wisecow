@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Define the log file location
+LOG_FILE="/var/log/nginx/access.log"
+
+if [ ! -f "$LOG_FILE" ]; then
+    echo "Log file not found: $LOG_FILE"
+    exit 1
+fi
+
+num_404_errors=$(grep " 404 " "$LOG_FILE" | wc -l)
+
+most_requested_pages=$(awk '{print $7}' "$LOG_FILE" | sort | uniq -c | sort -nr | head -10)
+
+# IP addresses with the most requests
+most_active_ips=$(awk '{print $1}' "$LOG_FILE" | sort | uniq -c | sort -nr | head -10)
+
+# Output the summarized report
+echo "Web Server Log Analysis Report"
+echo "=============================="
+echo
+echo "Total number of 404 errors: $num_404_errors"
+echo
+echo "Most requested pages:"
+echo "$most_requested_pages"
+echo
+echo "IP addresses with the most requests:"
+echo "$most_active_ips"
