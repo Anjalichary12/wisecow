@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 
 # Define the log file location
 LOG_FILE="/var/log/nginx/access.log"
