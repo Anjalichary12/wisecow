@@ -21,3 +21,26 @@ spec:
   - hosts:
     - 13.235.82.52
     secretName: wisecow-tls
+    
+#Using cert-manager to automate the management and issuance of TLS certificate
+#First installing cert-manager in k8s cluster
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.6.1/cert-manager.yaml
+
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: kottapellyanjali@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+
+
+
+
